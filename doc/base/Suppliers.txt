@@ -1,0 +1,6 @@
+    compose( Function<? super F, T> function, Supplier<F> supplier)：返回一个新的，由传入的Function和Supplier组成的Supplier实例。
+    memoize(Supplier<T> delegate)：返回第一个调用缓存实例的Supplier，检索在随后的调用并返回该值。
+    memoizeWithExpiration( Supplier<T> delegate, long duration, TimeUnit unit)：返回一个缓存的Supplier实例由传入的Supplier提供，设置缓存失效的时间。
+    ofInstance(@Nullable T instance)：，返回一个Supplier总是接收instance
+    synchronizedSupplier(Supplier<T> delegate)：返回一个Supplier，保证在调用get方法时加锁同步，是线程安全的。
+    supplierFunction()：返回一个Function，接收一个Supplier返回其调用get方法后的结果。	

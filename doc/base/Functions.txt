@@ -1,0 +1,13 @@
+    toStringFunction()：返回ToStringFunction的唯一实例，ToStringFunction主要是对返回传入对象调用toString方法后的表示。
+ 	
+    identity()：返回IdentityFunction的唯一实例。
+ 
+    forMap(Map<K, V> map)，forMap(Map<K, ? extends V> map, @Nullable V defaultValue)：接收一个Map集合作为参数，返回一个Function，用于执行Map集合的查找。
+ 
+    compose(Function<B, C> g, Function<A, ? extends B> f)：接收两个Function作为参数，返回两个Function的组合。
+ 
+    forPredicate(Predicate<T> predicate)：接收Predicate，转变为Function，更多Predicate，参见【Guava库学习：函数编程（二）使用Predicate和Predicates进行对象过滤】
+ 
+    constant(@Nullable E value)：为任何输入的值构造一个Function
+ 
+    forSupplier(Supplier<T> supplier)：接收Supplier，转变为Function，更多Supplier，参见【Guava库学习：函数编程（三）使用Supplier和Suppliers进行对象的包装构建】

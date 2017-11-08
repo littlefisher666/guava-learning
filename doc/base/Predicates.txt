@@ -1,0 +1,27 @@
+    alwaysTrue()：返回预估结果总是为true的Predicate实例。
+    
+    alwaysFalse()：返回预估结果总是为false的Predicate实例。
+ 
+    isNull()：返回被测试的对象引用为null的预估为true的Predicate实例。
+ 
+    notNull()：返回被测试的对象引用不为null的预估为true的Predicate实例。
+ 
+    not(Predicate<T> predicate)：返回传入Predicate预估为false的预估结果为true的Predicate实例。
+ 
+    and(Predicate<? super T> first,Predicate<? super T> second)：返回传入的两个Predicate预估都为true的预估结果为true的Predicate实例，重载的方法有Predicates.and(Iterable<Predicate<T>> predicates)，Predicates.and(Predicate<T> ...predicates)，作用与之相同。
+ 
+     or(Predicate<? super T> first,Predicate<? super T> second)：返回传入的两个Predicate任何一个预估为true的预估结果为true的Predicate实例，重载的方法有Predicates.or(Iterable<Predicate<T>> predicates)，Predicates.or(Predicate<T> ...predicates)，作用与之相同。
+ 
+    equalTo(@Nullable T target)：返回当传入对象与被测试对象相同或传入对象为空时预估结果为true的Predicate实例。
+ 
+    instanceOf(Class<?> clazz)：返回当被测试对象是传入class的实例时预估结果为true的Predicate实例。
+ 
+    assignableFrom(Class<?> clazz)：返回被测试的对象确定为传入的class时预估结果为true的Predicate实例。
+ 
+    in(Collection<? extends T> target)：返回当被测试的对象存在于传入的集合时预估结果为true的Predicate实例。
+ 
+    compose(Predicate<B> predicate, Function<A, ? extends B> function)：返回Function和Predicate的组合。
+ 
+    containsPattern(String pattern)：返回当被测试字符串包含任何能够匹配传入正则表达式的字符时预估为true的Predicate实例。
+ 
+    contains(Pattern pattern)：返回当被测试字符串包含任何能够匹配传入正则表达式模式的字符时预估为true的Predicate实例。
