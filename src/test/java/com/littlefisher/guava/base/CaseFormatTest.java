@@ -1,9 +1,10 @@
 package com.littlefisher.guava.base;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class CaseFormatTest extends TestCase {
+public class CaseFormatTest {
 
+    @Test
     public void test1() {
 
     }

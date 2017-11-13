@@ -1,13 +1,18 @@
 package com.littlefisher.guava.collect;
 
-import junit.framework.TestCase;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.MutableClassToInstanceMap;
 
-public class ClassToInstanceMapTest extends TestCase {
+public class ClassToInstanceMapTest {
 
+    private static Logger logger = LogManager.getLogger(ClassToInstanceMapTest.class);
+
+    @Test
     public void test() {
         ClassToInstanceMap<Person> classToInstanceMap = MutableClassToInstanceMap.create();
 
@@ -15,11 +20,11 @@ public class ClassToInstanceMapTest extends TestCase {
 
         classToInstanceMap.putInstance(Person.class, person);
 
-        //		 System.out.println("string:"+classToInstanceMap.getInstance(String.class));
-        //		 System.out.println("integer:" + classToInstanceMap.getInstance(Integer.class));
+//        logger.debug("string:" + classToInstanceMap.getInstance(String.class));
+//        logger.debug("integer:" + classToInstanceMap.getInstance(Integer.class));
 
         Person person1 = classToInstanceMap.getInstance(Person.class);
-        System.out.println(person1.toString());
+        logger.debug(person1.toString());
     }
 }
 

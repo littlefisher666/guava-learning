@@ -1,8 +1,7 @@
 package com.littlefisher.guava.collect;
 
-import junit.framework.TestCase;
 
-public class ComparisonChainTest extends TestCase {
+public class ComparisonChainTest {
 
 }
 

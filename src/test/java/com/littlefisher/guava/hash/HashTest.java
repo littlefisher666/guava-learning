@@ -4,6 +4,10 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
+
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.hash.BloomFilter;
@@ -13,22 +17,26 @@ import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
 import com.google.common.hash.PrimitiveSink;
 
-public class HashTest extends TestCase {
+public class HashTest {
+
+    private static Logger logger = LogManager.getLogger(HashTest.class);
 
     /**
      * 通过md5函数来获取散列值
      */
+    @Test
     public void test1() {
         Long id = 12L;
         String name = "baoq";
         HashFunction function = Hashing.md5();
         HashCode hc = function.newHasher().putLong(id).putString(name, Charsets.UTF_8).hash();
-        System.out.println(hc.hashCode());
+        logger.debug(hc.hashCode());
     }
 
     /**
      * 将对象类型封装成原生字段值，从而写入PrimitiveSink。
      */
+    @Test
     public void test2() {
         Funnel<Person> personFunnel = new Funnel<Person>() {
             public void funnel(Person from, PrimitiveSink into) {
@@ -41,12 +49,13 @@ public class HashTest extends TestCase {
         Person person = new Person(1, "bao", "qiang", 21);
         HashFunction function = Hashing.md5();
         HashCode hc = function.newHasher().putObject(person, personFunnel).hash();
-        System.out.println(hc.hashCode());
+        logger.debug(hc.hashCode());
     }
 
     /**
      * 布鲁姆过滤器
      */
+    @Test
     public void test3() {
         Person baoq = new Person(1, "bao", "qiang", 21);
         List<Person> friendsList = Lists.newArrayList(new Person(2, "bao3", "qiang", 21),

@@ -8,17 +8,22 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.common.io.LineProcessor;
 
-public class FilesTest extends TestCase {
+public class FilesTest {
+
+    private static Logger logger = LogManager.getLogger(FilesTest.class);
 
     /**
      * 一. Guava的文件写入
      */
+    @Test
     public void test1() {
         String fileName = "e://a.txt";
         String contents = "hello world";
@@ -28,7 +33,7 @@ public class FilesTest extends TestCase {
         try {
             Files.write(contents.getBytes(), newFile);
         } catch (IOException fileIoEx) {
-            err.println(
+            logger.error(
                     "ERROR trying to write to file '" + fileName + "' - " + fileIoEx.toString());
         }
     }
@@ -36,12 +41,13 @@ public class FilesTest extends TestCase {
     /**
      * 获取文件内容
      */
+    @Test
     public void test2() throws IOException {
         String testFilePath = "E:\\a.txt";
         File testFile = new File(testFilePath);
         List<String> lines = Files.readLines(testFile, Charsets.UTF_8);
         for (String line : lines) {
-            System.out.println(line);
+            logger.debug(line);
         }
     }
 
@@ -50,12 +56,13 @@ public class FilesTest extends TestCase {
      * 大文件处理可以使用readLines方法的另一个重载。
      * 下面的例子演示从一个大文件中逐行读取文本，并做行号计数。
      */
+    @Test
     public void test3() throws IOException {
         String testFilePath = "e:\\svn.txt";
         File testFile = new File(testFilePath);
         CounterLine counter = new CounterLine();
         Files.readLines(testFile, Charsets.UTF_8, counter);
-        System.out.println(counter.getResult());
+        logger.debug(counter.getResult());
     }
 
     static class CounterLine implements LineProcessor<Integer> {
@@ -63,7 +70,7 @@ public class FilesTest extends TestCase {
         private int rowNum = 0;
 
         public boolean processLine(String line) throws IOException {
-            System.out.println(line);
+            logger.debug(line);
             rowNum++;
             return true;
         }
@@ -76,17 +83,19 @@ public class FilesTest extends TestCase {
     /**
      * 获取所有文本内容
      */
+    @Test
     public void test4() throws IOException {
         File file = new File("e://svn.txt");
         String content = Files.toString(file, Charsets.UTF_8);
-        System.out.println(content);
+        logger.debug(content);
 
-        //		System.out.println(Files.readFirstLine(file, Charsets.UTF_8));
+        //		logger.debug(Files.readFirstLine(file, Charsets.UTF_8));
     }
 
     /**
      * 文件复制
      */
+    @Test
     public void test5() {
         String sourceFileName = "e://svn.txt";
         String targetFileName = "e://svn_copy.txt";
@@ -106,6 +115,7 @@ public class FilesTest extends TestCase {
     /**
      * 比较文件内容是否相同
      */
+    @Test
     public void test6() {
         String fileName1 = "e://svn.txt";
         String fileName2 = "e://svn_copy.txt";
@@ -122,7 +132,7 @@ public class FilesTest extends TestCase {
         }
     }
 
-    /**
+    /*
      * Guava的Files类中还提供了其他一些文件的简捷方法。比如
 
      touch方法创建或者更新文件的时间戳。

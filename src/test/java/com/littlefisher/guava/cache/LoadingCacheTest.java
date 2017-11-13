@@ -5,6 +5,10 @@ import java.util.concurrent.TimeUnit;
 
 import junit.framework.TestCase;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
+
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -12,11 +16,14 @@ import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
 import com.littlefisher.guava.base.ObjectsTest.Student;
 
-public class LoadingCacheTest extends TestCase {
+public class LoadingCacheTest {
+
+    private static Logger logger = LogManager.getLogger(LoadingCacheTest.class);
 
     /**
      * 缓存接口这里是LoadingCache，LoadingCache在缓存项不存在时可以自动加载缓存
      */
+    @Test
     public void test1() throws InterruptedException, ExecutionException {
         // 缓存接口这里是LoadingCache，LoadingCache在缓存项不存在时可以自动加载缓存
         LoadingCache<Integer, Student> studentCache
@@ -33,18 +40,15 @@ public class LoadingCacheTest extends TestCase {
                 // 设置要统计缓存的命中率
                 .recordStats()
                 // 设置缓存的移除通知
-                .removalListener(new RemovalListener<Object, Object>() {
-                    public void onRemoval(RemovalNotification<Object, Object> notification) {
-                        System.out.println(
-                                notification.getKey() + " was removed, cause is " + notification
-                                        .getCause());
-                    }
+                .removalListener(notification -> {
+                    logger.debug(notification.getKey() + " was removed, cause is " + notification
+                            .getCause());
                 })
                 // build方法中可以指定CacheLoader，在缓存不存在时通过CacheLoader的实现自动加载缓存
                 .build(new CacheLoader<Integer, Student>() {
                     @Override
                     public Student load(Integer key) throws Exception {
-                        System.out.println("load student " + key);
+                        logger.debug("load student " + key);
                         Student student = new Student();
                         student.setId(key);
                         student.setName("name " + key);
@@ -55,17 +59,17 @@ public class LoadingCacheTest extends TestCase {
         for (int i = 0; i < 20; i++) {
             // 从缓存中得到数据，由于我们没有设置过缓存，所以需要通过CacheLoader加载缓存数据
             Student student = studentCache.get(1);
-            System.out.println(student);
+            logger.debug(student);
             // 休眠1秒
             TimeUnit.SECONDS.sleep(1);
         }
 
-        System.out.println("cache stats:");
+        logger.debug("cache stats:");
         //最后打印缓存的命中率等 情况
         /*
          * 看看到在20此循环中命中次数是17次，未命中3次，这是因为我们设定缓存的过期时间是写入后的8秒，
          * 所以20秒内会失效两次，另外第一次获取时缓存中也是没有值的，所以才会未命中3次，其他则命中。
          */
-        System.out.println(studentCache.stats().toString());
+        logger.debug(studentCache.stats().toString());
     }
 }

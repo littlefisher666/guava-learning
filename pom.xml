@@ -16,6 +16,7 @@
     <jdk.version>1.8</jdk.version>
     <guava.version>23.0</guava.version>
     <junit.version>4.12</junit.version>
+    <log4j2.version>2.9.1</log4j2.version>
   </properties>
 
   <dependencies>
@@ -23,6 +24,12 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>${guava.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>${log4j2.version}</version>
     </dependency>
 
     <dependency>

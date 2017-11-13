@@ -5,37 +5,43 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 
-import junit.framework.TestCase;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
 
 import com.google.common.collect.Lists;
 import com.google.common.reflect.Reflection;
 import com.google.common.reflect.TypeToken;
 
-public class ReflectTest extends TestCase {
+public class ReflectTest {
+
+    private static Logger logger = LogManager.getLogger(ReflectTest.class);
 
     /**
      * guava反射包中的TypeToken类是用来解决java运行时泛型类型被擦除的问题的，
      * 有点不好理解，我们通过一个例子来认识什么是泛型的运行时类型擦除。
      */
+    @Test
     public void test1() {
         ArrayList<String> stringList = Lists.newArrayList();
         ArrayList<Integer> intList = Lists.newArrayList();
-        System.out.println("intList type is " + intList.getClass());
-        System.out.println("stringList type is " + stringList.getClass());
+        logger.debug("intList type is " + intList.getClass());
+        logger.debug("stringList type is " + stringList.getClass());
         //判断list的类型是否是同一个类型
-        System.out.println(stringList.getClass().isAssignableFrom(intList.getClass()));
+        logger.debug(stringList.getClass().isAssignableFrom(intList.getClass()));
 
         TypeToken<ArrayList<String>> typeToken = new TypeToken<ArrayList<String>>() {
         };
         TypeToken<?> genericTypeToken = typeToken
                 .resolveType(ArrayList.class.getTypeParameters()[0]);
-        System.out.println(genericTypeToken.getType());
+        logger.debug(genericTypeToken.getType());
     }
 
     /**
      * jdk的动态代理
      * guava的动态代理
      */
+    @Test
     public void test2() {
         InvocationHandler invocationHandler = new MyInvocationHandler();
 
@@ -53,7 +59,7 @@ public class ReflectTest extends TestCase {
     public static class MyInvocationHandler implements InvocationHandler {
 
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            System.out.println("proxy println something");
+            logger.debug("proxy println something");
             return null;
         }
     }

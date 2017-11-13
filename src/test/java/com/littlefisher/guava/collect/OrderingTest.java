@@ -2,37 +2,41 @@ package com.littlefisher.guava.collect;
 
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 
-public class OrderingTest extends TestCase {
+public class OrderingTest {
+
+    private static Logger logger = LogManager.getLogger(OrderingTest.class);
 
     /**
      * Ordering进行排序
      */
+    @Test
     public void test1() {
         List<Integer> numbers = Lists.newArrayList(30, 20, 60, 80, 10);
 
-        System.out.println(Ordering.natural().sortedCopy(numbers)); //10,20,30,60,80
+        logger.debug(Ordering.natural().sortedCopy(numbers)); //10,20,30,60,80
 
-        System.out.println(Ordering.natural().reverse().sortedCopy(numbers)); //80,60,30,20,10
+        logger.debug(Ordering.natural().reverse().sortedCopy(numbers)); //80,60,30,20,10
 
-        System.out.println(Ordering.natural().min(numbers)); //10
+        logger.debug(Ordering.natural().min(numbers)); //10
 
-        System.out.println(Ordering.natural().max(numbers)); //80
+        logger.debug(Ordering.natural().max(numbers)); //80
 
         Lists.newArrayList(30, 20, 60, 80, null, 10);
 
-        System.out
-                .println(Ordering.natural().nullsLast().sortedCopy(numbers)); //10, 20,30,60,80,null
+        logger.debug(Ordering.natural().nullsLast().sortedCopy(numbers)); //10, 20,30,60,80,null
 
-        System.out
-                .println(Ordering.natural().nullsFirst().sortedCopy(numbers)); //null,10,20,30,60,80
+        logger.debug((Ordering.natural().nullsFirst().sortedCopy(numbers))); //null,10,20,30,60,80
     }
 
+    @Test
     public void test2() {
         List<Person> personList = Lists.newArrayList(new Person(3, 1, "abc", "46546", 0),
                 new Person(2, 3, "ab", "46546", 0), new Person(5, 12, "ade", "46546", 0),
@@ -46,10 +50,11 @@ public class OrderingTest extends TestCase {
         };
 
         for (Person p : byAge.immutableSortedCopy(personList)) {
-            System.out.println(p);
+            logger.debug(p);
         }
     }
 
+    @Test
     public void test3() {
         List<String> list = Lists.newArrayList();
         list.add("peida");
@@ -59,19 +64,19 @@ public class OrderingTest extends TestCase {
         list.add("jhon");
         list.add("neron");
 
-        System.out.println("list:" + list);
+        logger.debug("list:" + list);
 
         Ordering<String> naturalOrdering = Ordering.natural();
         Ordering<Object> usingToStringOrdering = Ordering.usingToString();
         Ordering<Object> arbitraryOrdering = Ordering.arbitrary();
 
         // 使用Comparable类型的自然顺序， 例如：整数从小到大，字符串是按字典顺序;
-        System.out.println("naturalOrdering:" + naturalOrdering.sortedCopy(list));
+        logger.debug("naturalOrdering:" + naturalOrdering.sortedCopy(list));
         // 使用toString()返回的字符串按字典顺序进行排序；
-        System.out.println("usingToStringOrdering:" + usingToStringOrdering.sortedCopy(list));
+        logger.debug("usingToStringOrdering:" + usingToStringOrdering.sortedCopy(list));
         // 返回一个所有对象的任意顺序， 即compare(a, b) == 0 就是 a == b (identity equality)。
         // 本身的排序是没有任何含义， 但是在VM的生命周期是一个常量。
-        System.out.println("arbitraryOrdering:" + arbitraryOrdering.sortedCopy(list));
+        logger.debug("arbitraryOrdering:" + arbitraryOrdering.sortedCopy(list));
     }
 
     /**
@@ -88,6 +93,7 @@ public class OrderingTest extends TestCase {
      * 　　            isStrictlyOrdered(Iterable)：是否严格有序。请注意，Iterable不能少于两个元素。
      * 　　            sortedCopy(Iterable)：返回指定的元素作为一个列表的排序副本。
      */
+    @Test
     public void test4() {
         List<String> list = Lists.newArrayList();
         list.add("peida");
@@ -97,10 +103,10 @@ public class OrderingTest extends TestCase {
         list.add("jhon");
         list.add("neron");
 
-        System.out.println("list:" + list);
+        logger.debug("list:" + list);
 
         Ordering<String> naturalOrdering = Ordering.natural();
-        System.out.println("naturalOrdering:" + naturalOrdering.sortedCopy(list));
+        logger.debug("naturalOrdering:" + naturalOrdering.sortedCopy(list));
 
         List<Integer> listReduce = Lists.newArrayList();
         for (int i = 9; i > 0; i--) {
@@ -115,46 +121,45 @@ public class OrderingTest extends TestCase {
 
         Ordering<Integer> naturalIntReduceOrdering = Ordering.natural();
 
-        System.out.println("listtest:" + listtest);
-        System.out.println(naturalIntReduceOrdering.isOrdered(listtest));
-        System.out.println(naturalIntReduceOrdering.isStrictlyOrdered(listtest));
+        logger.debug("listtest:" + listtest);
+        logger.debug(naturalIntReduceOrdering.isOrdered(listtest));
+        logger.debug(naturalIntReduceOrdering.isStrictlyOrdered(listtest));
 
-        System.out.println(
-                "naturalIntReduceOrdering:" + naturalIntReduceOrdering.sortedCopy(listReduce));
-        System.out.println("listReduce:" + listReduce);
+        logger.debug("naturalIntReduceOrdering:" + naturalIntReduceOrdering.sortedCopy(listReduce));
+        logger.debug("listReduce:" + listReduce);
 
-        System.out.println(naturalIntReduceOrdering
+        logger.debug(naturalIntReduceOrdering
                 .isOrdered(naturalIntReduceOrdering.sortedCopy(listReduce)));
-        System.out.println(naturalIntReduceOrdering
+        logger.debug(naturalIntReduceOrdering
                 .isStrictlyOrdered(naturalIntReduceOrdering.sortedCopy(listReduce)));
 
         Ordering<String> natural = Ordering.natural();
 
         List<String> abc = ImmutableList.of("a", "b", "c");
-        System.out.println(natural.isOrdered(abc));
-        System.out.println(natural.isStrictlyOrdered(abc));
+        logger.debug(natural.isOrdered(abc));
+        logger.debug(natural.isStrictlyOrdered(abc));
 
-        System.out.println("isOrdered reverse :" + natural.reverse().isOrdered(abc));
+        logger.debug("isOrdered reverse :" + natural.reverse().isOrdered(abc));
 
         List<String> cba = ImmutableList.of("c", "b", "a");
-        System.out.println(natural.isOrdered(cba));
-        System.out.println(natural.isStrictlyOrdered(cba));
-        System.out.println(cba = natural.sortedCopy(cba));
+        logger.debug(natural.isOrdered(cba));
+        logger.debug(natural.isStrictlyOrdered(cba));
+        logger.debug(cba = natural.sortedCopy(cba));
 
-        System.out.println("max:" + natural.max(cba));
-        System.out.println("min:" + natural.min(cba));
+        logger.debug("max:" + natural.max(cba));
+        logger.debug("min:" + natural.min(cba));
 
-        System.out.println("leastOf:" + natural.leastOf(cba, 2));
-        System.out.println("naturalOrdering:" + naturalOrdering.sortedCopy(list));
-        System.out.println("leastOf list:" + naturalOrdering.leastOf(list, 3));
-        System.out.println("greatestOf:" + naturalOrdering.greatestOf(list, 3));
-        System.out.println("reverse list :" + naturalOrdering.reverse().sortedCopy(list));
-        System.out.println("isOrdered list :" + naturalOrdering.isOrdered(list));
-        System.out.println("isOrdered list :" + naturalOrdering.reverse().isOrdered(list));
+        logger.debug("leastOf:" + natural.leastOf(cba, 2));
+        logger.debug("naturalOrdering:" + naturalOrdering.sortedCopy(list));
+        logger.debug("leastOf list:" + naturalOrdering.leastOf(list, 3));
+        logger.debug("greatestOf:" + naturalOrdering.greatestOf(list, 3));
+        logger.debug("reverse list :" + naturalOrdering.reverse().sortedCopy(list));
+        logger.debug("isOrdered list :" + naturalOrdering.isOrdered(list));
+        logger.debug("isOrdered list :" + naturalOrdering.reverse().isOrdered(list));
         list.add(null);
-        System.out.println(" add null list:" + list);
-        System.out.println("nullsFirst list :" + naturalOrdering.nullsFirst().sortedCopy(list));
-        System.out.println("nullsLast list :" + naturalOrdering.nullsLast().sortedCopy(list));
+        logger.debug(" add null list:" + list);
+        logger.debug("nullsFirst list :" + naturalOrdering.nullsFirst().sortedCopy(list));
+        logger.debug("nullsLast list :" + naturalOrdering.nullsLast().sortedCopy(list));
     }
 }
 

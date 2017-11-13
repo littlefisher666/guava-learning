@@ -1,8 +1,6 @@
 package com.littlefisher.guava.concurrent;
 
-import junit.framework.TestCase;
-
-public class RateLimiterTest extends TestCase {
+public class RateLimiterTest {
 
     public void test1() {
 

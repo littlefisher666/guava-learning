@@ -2,19 +2,26 @@ package com.littlefisher.guava.base;
 
 import junit.framework.TestCase;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
+
 import com.google.common.base.Optional;
 import com.littlefisher.guava.base.ObjectsTest.Student;
 
-public class OptionalTest extends TestCase {
+public class OptionalTest {
+    
+    private static Logger logger = LogManager.getLogger(OptionalTest.class);
 
+    @Test
     public void test4() {
         // 创建Optional对象
         Optional<String> op1 = Optional.absent();
-        System.out.println(op1); //Optional.absent()
+        logger.debug(op1); //Optional.absent()
         Optional<String> op2 = Optional.fromNullable(null);
-        System.out.println(op2);//Optional.absent()
+        logger.debug(op2);//Optional.absent()
         Optional<String> op3 = Optional.of(null);
-        System.out.println(op3);//创建指定引用的Optional实例，若引用为null则快速失败
+        logger.debug(op3);//创建指定引用的Optional实例，若引用为null则快速失败
 
         // Optional的非静态方法：
         // boolean isPresent()	如果Optional包含非null的引用（引用存在），返回true
@@ -34,11 +41,13 @@ public class OptionalTest extends TestCase {
      * 即在可能为null的对象上做了一层封装，在使用Optional静态方法of时，
      * 如果传入的参数为null就抛出NullPointerException异常。
      */
+    @Test
     public void test1() {
         Optional<Student> possibleNull = Optional.of(null);
         possibleNull.get();
     }
 
+    @Test
     public void test2() {
         Optional<Student> possibleNull = Optional.absent();
         Student jim = possibleNull.get();
@@ -48,26 +57,28 @@ public class OptionalTest extends TestCase {
      * 举个例子
      * 普通青年和文艺青年分别写一段SayHello的代码，要求如下，当用户名为null时则称呼“火星人”
      */
+    @Test
     public void test3() {
         //jdk
         String name = null;
         if (name == null) {
             name = "火星人";
         }
-        System.out.println("普通青年说：Hello, " + name);
+        logger.debug("普通青年说：Hello, " + name);
 
         name = Optional.fromNullable(name).or("火星人");
-        System.out.println("文艺青年说：Hello, " + name);
+        logger.debug("文艺青年说：Hello, " + name);
     }
 
     /**
      * 测试
      */
+    @Test
     public void test() {
-        System.out.println(Optional.of(1).of(2).of(3).asSet().size());
+        logger.debug(Optional.of(1).of(2).of(3).asSet().size());
     }
 
-    /**
+    /*
      * 这样使用也会有异常出来，那Optional到底有什么意义呢？
 
      使用Optional除了赋予null语义，增加了可读性，最大的优点在于它是一种傻瓜式的防护。

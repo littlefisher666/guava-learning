@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import junit.framework.TestCase;
+
+import org.junit.Test;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -15,11 +16,12 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.ObjectArrays;
 import com.google.common.collect.Sets;
 
-public class CollectionTest extends TestCase {
+public class CollectionTest {
 
     /**
      * 集合的创建
      */
+    @Test
     public void test1() {
         //jdk
         Map<String, Map<String, String>> map = new HashMap<>();

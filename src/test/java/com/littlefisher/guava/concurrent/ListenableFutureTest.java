@@ -7,13 +7,19 @@ import java.util.concurrent.TimeUnit;
 
 import junit.framework.TestCase;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
+
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 
-public class ListenableFutureTest extends TestCase {
+public class ListenableFutureTest {
+
+    private static Logger logger = LogManager.getLogger(ListenableFutureTest.class);
 
     /**
      * 首先通过MoreExecutors类的静态方法listeningDecorator方法初始化一个
@@ -23,13 +29,14 @@ public class ListenableFutureTest extends TestCase {
      * 我们上文中定义的ListenableFuture要做的工作，在Callable接口的实现类中定义，
      * 这里只是休眠了1秒钟然后返回一个数字7.
      */
+    @Test
     public void test1() {
         ListeningExecutorService executorService = MoreExecutors
                 .listeningDecorator(Executors.newCachedThreadPool());
         final ListenableFuture<Integer> listenableFuture = executorService
                 .submit(new Callable<Integer>() {
                     public Integer call() throws Exception {
-                        System.out.println("call execute..");
+                        logger.debug("call execute..");
                         TimeUnit.SECONDS.sleep(1);
                         return 7;
                     }
@@ -42,7 +49,7 @@ public class ListenableFutureTest extends TestCase {
         listenableFuture.addListener(new Runnable() {
             public void run() {
                 try {
-                    System.out.println("get listenable future's result " + listenableFuture.get());
+                    logger.debug("get listenable future's result " + listenableFuture.get());
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
@@ -52,7 +59,7 @@ public class ListenableFutureTest extends TestCase {
         //通过Futures的静态方法addCallback给ListenableFuture添加回调函数
         Futures.addCallback(listenableFuture, new FutureCallback<Integer>() {
             public void onSuccess(Integer result) {
-                System.out.println("get listenable future's result with callback " + result);
+                logger.debug("get listenable future's result with callback " + result);
             }
 
             public void onFailure(Throwable t) {

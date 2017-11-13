@@ -2,9 +2,15 @@ package com.littlefisher.guava.base;
 
 import junit.framework.TestCase;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
+
 import com.google.common.base.Preconditions;
 
-public class PreconditionsTest extends TestCase {
+public class PreconditionsTest {
+
+    private static Logger logger = LogManager.getLogger(PreconditionsTest.class);
 
     /**
      * google guava的base包中提供的Preconditions类用来方便的做参数的校验
@@ -15,11 +21,12 @@ public class PreconditionsTest extends TestCase {
      * checkElementIndex方法用来判断用户传入的数组下标或者list索引位置，是否是合法的，如果不合法会抛出IndexOutOfBoundsException
      * checkPositionIndexes方法的作用和checkElementIndex方法相似，只是此方法的索引范围是从0到size包括size，而上面的方法不包括size。
      */
-
+    @Test
     public void test1() {
         doSomething(null, 19, "hello world, hello java");
     }
 
+    @Test
     public void doSomething(String name, int age, String desc) {
 
         // 只支持%s指示符

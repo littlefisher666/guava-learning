@@ -4,11 +4,18 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
+
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
-public class TableTest extends TestCase {
+public class TableTest {
 
+    private static Logger logger = LogManager.getLogger(TableTest.class);
+
+    @Test
     public void test() {
         Table<Integer, Integer, String> table = HashBasedTable.create();
         for (int row = 0; row < 10; row++) {
@@ -19,8 +26,7 @@ public class TableTest extends TestCase {
         for (int row = 0; row < table.rowMap().size(); row++) {
             Map<Integer, String> rowData = table.row(row);
             for (int column = 0; column < rowData.size(); column++) {
-                System.out.println(
-                        "cell(" + row + "," + column + ") value is:" + rowData.get(column));
+                logger.debug("cell(" + row + "," + column + ") value is:" + rowData.get(column));
             }
         }
     }

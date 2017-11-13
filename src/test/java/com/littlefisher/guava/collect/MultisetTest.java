@@ -2,12 +2,18 @@ package com.littlefisher.guava.collect;
 
 import junit.framework.TestCase;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
-public class MultisetTest extends TestCase {
+public class MultisetTest {
+
+    private static Logger logger = LogManager.getLogger(MultisetTest.class);
 
     /**
      * Multiset看似是一个Set，但是实质上它不是一个Set，它没有继承Set接口，
@@ -16,6 +22,7 @@ public class MultisetTest extends TestCase {
      *
      * 它本质上是一个Set加一个元素计数器。
      */
+    @Test
     public void test() {
         Multiset<String> multiset = HashMultiset.create();
         String sentences = "this is a story, there is a good girl in the story.";
@@ -28,10 +35,11 @@ public class MultisetTest extends TestCase {
         multiset.setCount("there", 4);
 
         for (Object element : multiset.elementSet()) {
-            System.out.println((String) element + ":" + multiset.count(element));
+            logger.debug((String) element + ":" + multiset.count(element));
         }
     }
 
+    @Test
     public void test2() {
         Multiset<String> multiset1 = HashMultiset.create();
         multiset1.add("a");
@@ -42,6 +50,6 @@ public class MultisetTest extends TestCase {
         multiset2.add("a");
         multiset2.add("a");
         boolean flag = Objects.equal(multiset1, multiset2);
-        System.out.println(flag);
+        logger.debug(flag);
     }
 }
