@@ -2,7 +2,6 @@ package com.littlefisher.guava.hash;
 
 import java.util.List;
 
-import junit.framework.TestCase;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +14,6 @@ import com.google.common.hash.Funnel;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
-import com.google.common.hash.PrimitiveSink;
 
 public class HashTest {
 
@@ -38,18 +36,20 @@ public class HashTest {
      */
     @Test
     public void test2() {
-        Funnel<Person> personFunnel = new Funnel<Person>() {
-            public void funnel(Person from, PrimitiveSink into) {
-                into.putInt(from.id);
-                into.putString(from.firstName, Charsets.UTF_8);
-                into.putString(from.lastName, Charsets.UTF_8);
-                into.putInt(from.birthYear);
-            }
-        };
+        Funnel<Person> personFunnel = getPerson();
         Person person = new Person(1, "bao", "qiang", 21);
         HashFunction function = Hashing.md5();
         HashCode hc = function.newHasher().putObject(person, personFunnel).hash();
         logger.debug(hc.hashCode());
+    }
+
+    private Funnel<Person> getPerson() {
+        return (Funnel<Person>) (from, into) -> {
+            into.putInt(from.id);
+            into.putString(from.firstName, Charsets.UTF_8);
+            into.putString(from.lastName, Charsets.UTF_8);
+            into.putInt(from.birthYear);
+        };
     }
 
     /**
@@ -61,18 +61,10 @@ public class HashTest {
         List<Person> friendsList = Lists.newArrayList(new Person(2, "bao3", "qiang", 21),
                 new Person(1, "bao32", "qiang", 21));
         friendsList.add(baoq);
-        Funnel<Person> personFunnel = new Funnel<Person>() {
-            public void funnel(Person from, PrimitiveSink into) {
-                into.putInt(from.id);
-                into.putString(from.firstName, Charsets.UTF_8);
-                into.putString(from.lastName, Charsets.UTF_8);
-                into.putInt(from.birthYear);
-            }
-        };
+        Funnel<Person> personFunnel = getPerson();
         BloomFilter<Person> friends = BloomFilter.create(personFunnel, 500, 0.01);
-        for (Person friend : friendsList) {
-            friends.put(friend);
-        }
+        friendsList.forEach(friends::put);
+
         // 很久以后
         if (friends.mightContain(baoq)) {
             //dude不是朋友还运行到这里的概率为1%

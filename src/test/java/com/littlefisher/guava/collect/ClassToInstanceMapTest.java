@@ -24,6 +24,7 @@ public class ClassToInstanceMapTest {
 //        logger.debug("integer:" + classToInstanceMap.getInstance(Integer.class));
 
         Person person1 = classToInstanceMap.getInstance(Person.class);
+        logger.debug("person age: {}", person1::getAge);
         logger.debug(person1.toString());
     }
 }

@@ -1,7 +1,5 @@
 package com.littlefisher.guava.base;
 
-import junit.framework.TestCase;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -25,7 +23,7 @@ public class ObjectsTest {
         Object a = null;
         Object b = new Object();
         boolean aEqualsB = Objects.equal(a, b);
-        logger.debug(aEqualsB);
+        logger.debug("aEqualsB: {}", aEqualsB);
     }
 
     /**

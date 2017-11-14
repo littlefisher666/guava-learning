@@ -1,7 +1,5 @@
 package com.littlefisher.guava.base;
 
-import junit.framework.TestCase;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -17,11 +15,11 @@ public class OptionalTest {
     public void test4() {
         // 创建Optional对象
         Optional<String> op1 = Optional.absent();
-        logger.debug(op1); //Optional.absent()
+        logger.debug("op1: {}", op1); //Optional.absent()
         Optional<String> op2 = Optional.fromNullable(null);
-        logger.debug(op2);//Optional.absent()
+        logger.debug("op2: {}", op2.get());//Optional.absent()
         Optional<String> op3 = Optional.of(null);
-        logger.debug(op3);//创建指定引用的Optional实例，若引用为null则快速失败
+        logger.debug("op3: {}", op3);//创建指定引用的Optional实例，若引用为null则快速失败
 
         // Optional的非静态方法：
         // boolean isPresent()	如果Optional包含非null的引用（引用存在），返回true

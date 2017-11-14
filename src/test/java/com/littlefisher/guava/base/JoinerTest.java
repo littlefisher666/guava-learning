@@ -1,6 +1,5 @@
 package com.littlefisher.guava.base;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -8,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.Maps;
 
 public class JoinerTest {
 
@@ -19,7 +19,7 @@ public class JoinerTest {
     @Test
     public void test1() {
         String joinResult = Joiner.on(" ").join(new String[] { "hello", "world" });
-        logger.debug(joinResult);
+        logger.debug("joinResult: {}", joinResult);
     }
 
     /**
@@ -27,11 +27,13 @@ public class JoinerTest {
      */
     @Test
     public void test2() {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, Object> map = Maps.newHashMap();
         map.put("a", "b");
-        map.put("c", "d");
+        Map<String, Object> map2 = Maps.newHashMap();
+        map2.put("c", "d");
+        map.put("e", map2);
         String mapJoinResult = Joiner.on(",").withKeyValueSeparator("=").join(map);
-        logger.debug(mapJoinResult);
+        logger.debug("mapJoinResult: {}", mapJoinResult);
     }
 
     /**
@@ -41,15 +43,17 @@ public class JoinerTest {
     @Test
     public void test3() {
         String[] strings = new String[] { "ad", "s", "e", null, "ds" };
-        //		String str = Joiner.on(",").join(strings);
-        //		logger.debug(str);
+        logger.debug("str: {}", strings);
+        // 无法针对于null的数据做处理
+//        String str1 = Joiner.on(",").join(strings);
+//        logger.debug("str1: {}", str1);
 
         //对于null进行打印NA来替换
-        //		String str = Joiner.on(",").useForNull("NA").join(strings);
-        //		logger.debug(str);
+        String str2 = Joiner.on(",").useForNull("NA").join(strings);
+        logger.debug("str2: {}", str2);
 
         //把null滤掉:
-        String str = Joiner.on(",").skipNulls().join(strings);
-        logger.debug(str);
+        String str3 = Joiner.on(",").skipNulls().join(strings);
+        logger.debug("str3: {}", str3);
     }
 }

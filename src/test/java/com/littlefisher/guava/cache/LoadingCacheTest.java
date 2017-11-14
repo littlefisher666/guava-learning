@@ -48,7 +48,7 @@ public class LoadingCacheTest {
                 .build(new CacheLoader<Integer, Student>() {
                     @Override
                     public Student load(Integer key) throws Exception {
-                        logger.debug("load student " + key);
+                        logger.debug("load student: {}", key);
                         Student student = new Student();
                         student.setId(key);
                         student.setName("name " + key);
@@ -61,15 +61,16 @@ public class LoadingCacheTest {
             Student student = studentCache.get(1);
             logger.debug(student);
             // 休眠1秒
+            // TODO: 可记录
             TimeUnit.SECONDS.sleep(1);
         }
 
         logger.debug("cache stats:");
-        //最后打印缓存的命中率等 情况
+        // 最后打印缓存的命中率等 情况
         /*
          * 看看到在20此循环中命中次数是17次，未命中3次，这是因为我们设定缓存的过期时间是写入后的8秒，
          * 所以20秒内会失效两次，另外第一次获取时缓存中也是没有值的，所以才会未命中3次，其他则命中。
          */
-        logger.debug(studentCache.stats().toString());
+        logger.debug("cache stats: {}", studentCache.stats().toString());
     }
 }

@@ -1,8 +1,6 @@
 package com.littlefisher.guava.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static java.lang.System.err;
-import static java.lang.System.out;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +14,9 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.common.io.LineProcessor;
 
+/**
+ * TODO: 可记录
+ */
 public class FilesTest {
 
     private static Logger logger = LogManager.getLogger(FilesTest.class);
@@ -61,7 +62,7 @@ public class FilesTest {
         String testFilePath = "e:\\svn.txt";
         File testFile = new File(testFilePath);
         CounterLine counter = new CounterLine();
-        Files.readLines(testFile, Charsets.UTF_8, counter);
+        Files.asCharSource(testFile, Charsets.UTF_8).readLines(counter);
         logger.debug(counter.getResult());
     }
 
@@ -86,7 +87,7 @@ public class FilesTest {
     @Test
     public void test4() throws IOException {
         File file = new File("e://svn.txt");
-        String content = Files.toString(file, Charsets.UTF_8);
+        String content = Files.asCharSource(file, Charsets.UTF_8).read();
         logger.debug(content);
 
         //		logger.debug(Files.readFirstLine(file, Charsets.UTF_8));
@@ -106,7 +107,7 @@ public class FilesTest {
         try {
             Files.copy(sourceFile, targetFile);
         } catch (IOException fileIoEx) {
-            err.println(
+            logger.error(
                     "ERROR trying to copy file '" + sourceFileName + "' to file '" + targetFileName
                     + "' - " + fileIoEx.toString());
         }
@@ -124,11 +125,11 @@ public class FilesTest {
         final File file1 = new File(fileName1);
         final File file2 = new File(fileName2);
         try {
-            out.println("File '" + fileName1 + "' " + (Files.equal(file1, file2) ? "IS" : "is NOT")
-                        + " the same as file '" + fileName2 + "'.");
+            logger.debug("File '" + fileName1 + "' " + (Files.equal(file1, file2) ? "IS" : "is NOT")
+                         + " the same as file '" + fileName2 + "'.");
         } catch (IOException fileIoEx) {
-            err.println("ERROR trying to compare two files '" + fileName1 + "' and '" + fileName2
-                        + "' - " + fileIoEx.toString());
+            logger.error("ERROR trying to compare two files '" + fileName1 + "' and '" + fileName2
+                         + "' - " + fileIoEx.toString());
         }
     }
 

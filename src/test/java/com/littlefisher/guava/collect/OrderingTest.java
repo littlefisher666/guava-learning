@@ -49,9 +49,7 @@ public class OrderingTest {
             }
         };
 
-        for (Person p : byAge.immutableSortedCopy(personList)) {
-            logger.debug(p);
-        }
+        byAge.immutableSortedCopy(personList).forEach(logger::debug);
     }
 
     @Test
@@ -64,19 +62,19 @@ public class OrderingTest {
         list.add("jhon");
         list.add("neron");
 
-        logger.debug("list:" + list);
+        logger.debug("list: {}", list);
 
         Ordering<String> naturalOrdering = Ordering.natural();
         Ordering<Object> usingToStringOrdering = Ordering.usingToString();
         Ordering<Object> arbitraryOrdering = Ordering.arbitrary();
 
         // 使用Comparable类型的自然顺序， 例如：整数从小到大，字符串是按字典顺序;
-        logger.debug("naturalOrdering:" + naturalOrdering.sortedCopy(list));
+        logger.debug("naturalOrdering: {}", naturalOrdering.sortedCopy(list));
         // 使用toString()返回的字符串按字典顺序进行排序；
-        logger.debug("usingToStringOrdering:" + usingToStringOrdering.sortedCopy(list));
+        logger.debug("usingToStringOrdering: {}", usingToStringOrdering.sortedCopy(list));
         // 返回一个所有对象的任意顺序， 即compare(a, b) == 0 就是 a == b (identity equality)。
         // 本身的排序是没有任何含义， 但是在VM的生命周期是一个常量。
-        logger.debug("arbitraryOrdering:" + arbitraryOrdering.sortedCopy(list));
+        logger.debug("arbitraryOrdering: {}", arbitraryOrdering.sortedCopy(list));
     }
 
     /**
@@ -103,10 +101,10 @@ public class OrderingTest {
         list.add("jhon");
         list.add("neron");
 
-        logger.debug("list:" + list);
+        logger.debug("list: {}", list);
 
         Ordering<String> naturalOrdering = Ordering.natural();
-        logger.debug("naturalOrdering:" + naturalOrdering.sortedCopy(list));
+        logger.debug("naturalOrdering: {}", naturalOrdering.sortedCopy(list));
 
         List<Integer> listReduce = Lists.newArrayList();
         for (int i = 9; i > 0; i--) {
@@ -121,7 +119,7 @@ public class OrderingTest {
 
         Ordering<Integer> naturalIntReduceOrdering = Ordering.natural();
 
-        logger.debug("listtest:" + listtest);
+        logger.debug("listtest: {}", listtest);
         logger.debug(naturalIntReduceOrdering.isOrdered(listtest));
         logger.debug(naturalIntReduceOrdering.isStrictlyOrdered(listtest));
 

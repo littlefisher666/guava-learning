@@ -64,7 +64,7 @@ public class ReflectTest {
         }
     }
 
-    public static interface IFoo {
+    public interface IFoo {
 
         void doSomething();
     }

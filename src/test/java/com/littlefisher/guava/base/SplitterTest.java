@@ -9,10 +9,12 @@ import org.junit.Test;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 
+/**
+ * TODO: 可记录
+ */
 public class SplitterTest {
-    
+
     private static Logger logger = LogManager.getLogger(SplitterTest.class);
 
     /**
@@ -22,12 +24,14 @@ public class SplitterTest {
     public void test1() {
         String str = "this is my java program!";
         Splitter split = Splitter.onPattern("[o| ]+"); //支持正则
-        Iterable<String> it = split.split(str);
+        Iterable<String> it = split
+                // 排除空字符
+                .omitEmptyStrings()
+                // 对截取后字符串进行trim
+                .trimResults().split(str);
 
-        split.omitEmptyStrings(); //排除空字符
-        split.trimResults(); //对截取后字符串进行trim
-        for (String temp : it) {
-            logger.debug(temp);
+        for (String tempStr : it) {
+            logger.debug("tempStr: {}", tempStr);
         }
     }
 
@@ -51,38 +55,22 @@ public class SplitterTest {
     public void test3() {
         //limit(int) 限制拆分出来的数量
         String str = "hello is world";
-        List<String> list = Lists.newArrayList(Splitter.on(" ").limit(2).split(str));
-        logger.debug(list);
+        List<String> list = Splitter.on(" ").limit(2).splitToList(str);
+        logger.debug("list: {}", list);
         list = Splitter.on(" ").limit(3).splitToList(str);
         String[] strArr = Iterables.toArray(Splitter.on(" ").limit(3).split(str), String.class);
-        logger.debug(list);
+        logger.debug("list: {}", list);
     }
 
     /**
-     *
+     * 使用jdk中的split会出现奇异的地方，例如下面的，在最后一个逗号后面应该也要拆分出来一个空字符串
      */
     @Test
     public void test4() {
         String[] strArr = ",a,,b,".split(",");
-        logger.debug(strArr);
-    }
-
-    /**
-     *
-     */
-    @Test
-    public void test5() {
-
-    }
-
-    @Test
-    public void test6() {
-
-    }
-
-    @Test
-    public void test7() {
-
+        for (String s : strArr) {
+            logger.debug("s: {}", s);
+        }
     }
 
 }

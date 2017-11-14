@@ -2,8 +2,6 @@ package com.littlefisher.guava.base;
 
 import com.google.common.base.Strings;
 
-import junit.framework.TestCase;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -49,8 +47,8 @@ public class StringsTest {
     public void test4() {
         String str1 = "this is java crazy";
         String str2 = "this are java crazy";
-        logger.debug(Strings.commonPrefix(str1, str2));
-        logger.debug(Strings.commonSuffix(str1, str2));
+        logger.debug("common prefix: {}", Strings.commonPrefix(str1, str2));
+        logger.debug("common suffix: {}", Strings.commonSuffix(str1, str2));
     }
 
     /**
@@ -60,10 +58,10 @@ public class StringsTest {
     public void test5() {
         String str1 = "34";
         String padStartString = Strings.padStart(str1, 4, '0');
-        logger.debug(padStartString);
+        logger.debug("padStartString: {}", padStartString);
 
         String padEndString = Strings.padEnd(str1, 6, '5');
-        logger.debug(padEndString);
+        logger.debug("padEndString: {}", padEndString);
     }
 
     /**

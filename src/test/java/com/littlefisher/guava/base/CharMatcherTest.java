@@ -12,22 +12,23 @@ public class CharMatcherTest {
 
     @Test
     public void test1() {
-        String str = "this is 1 2 3 hello world  test data!";
-        // 移除control字符
-        String noControl = CharMatcher.JAVA_ISO_CONTROL.removeFrom(str);
-        logger.debug(noControl);
+        String str = "this is 1 2 3 hello world  test data! Tom!\r\n";
+        logger.debug("str: {}", str);
+        // 移除control字符，例如\r \n等等
+        String noControl = CharMatcher.javaIsoControl().removeFrom(str);
+        logger.debug("noControl: {}", noControl);
         // 只保留数字字符
-        String theDigits = CharMatcher.DIGIT.retainFrom(str);
-        logger.debug(theDigits);
+        String onlyDigits = CharMatcher.inRange('0', '9').retainFrom(str);
+        logger.debug("onlyDigits: {}", onlyDigits);
         // 去除两端的空格，并把中间的连续空格替换成单个空格
-        String spaced = CharMatcher.WHITESPACE.trimAndCollapseFrom(str, ' ');
-        logger.debug(spaced);
+        String spaced = CharMatcher.whitespace().trimAndCollapseFrom(str, ' ');
+        logger.debug("spaced: {}", spaced);
         // 用*号替换所有数字
-        String noDigits = CharMatcher.JAVA_DIGIT.replaceFrom(str, "*");
-        logger.debug(noDigits);
+        String noDigits = CharMatcher.inRange('0', '9').replaceFrom(str, "*");
+        logger.debug("noDigits: {}", noDigits);
         // 只保留数字和小写字母
-        String lowerAndDigit = CharMatcher.JAVA_DIGIT.or(CharMatcher.JAVA_LOWER_CASE)
+        String lowerAndDigit = CharMatcher.inRange('0', '9').or(CharMatcher.inRange('a', 'z'))
                 .retainFrom(str);
-        logger.debug(lowerAndDigit);
+        logger.debug("lowerAndDigit: {}", lowerAndDigit);
     }
 }

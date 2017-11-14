@@ -33,26 +33,21 @@ public class ListenableFutureTest {
     public void test1() {
         ListeningExecutorService executorService = MoreExecutors
                 .listeningDecorator(Executors.newCachedThreadPool());
-        final ListenableFuture<Integer> listenableFuture = executorService
-                .submit(new Callable<Integer>() {
-                    public Integer call() throws Exception {
-                        logger.debug("call execute..");
-                        TimeUnit.SECONDS.sleep(1);
-                        return 7;
-                    }
-                });
+        final ListenableFuture<Integer> listenableFuture = executorService.submit(() -> {
+            logger.debug("call execute..");
+            TimeUnit.SECONDS.sleep(1);
+            return 7;
+        });
         /*
          * 有了ListenableFuture实例，有两种方法可以执行此Future并执行Future完成之后的回调函数。
          */
 
         //方法一：通过ListenableFuture的addListener方法
-        listenableFuture.addListener(new Runnable() {
-            public void run() {
-                try {
-                    logger.debug("get listenable future's result " + listenableFuture.get());
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
+        listenableFuture.addListener(() -> {
+            try {
+                logger.debug("get listenable future's result " + listenableFuture.get());
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
             }
         }, executorService);
 

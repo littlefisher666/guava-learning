@@ -7,12 +7,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
-public class IteratorsTest  {
+public class IteratorsTest {
 
     private static Logger logger = LogManager.getLogger(IteratorsTest.class);
 
@@ -25,19 +23,15 @@ public class IteratorsTest  {
     public void test1() {
         List<String> list = Lists.newArrayList("Apple", "Pear", "Peach", "Banana");
 
-        Predicate<String> condition = new Predicate<String>() {
-
-            public boolean apply(String input) {
-                return input.startsWith("P");
-            }
-
-        };
-        boolean allIsStartsWithP = Iterators.all(list.iterator(), condition);
-        //        boolean allIsStartsWithP = Iterators.any(list.iterator(), condition);
-        logger.debug("all result == " + allIsStartsWithP);
+        boolean allIsStartsWithP = Iterators
+                .all(list.iterator(), input -> input != null && input.startsWith("P"));
+        boolean anyIsStartsWithP = Iterators
+                .any(list.iterator(), input -> input != null && input.startsWith("P"));
+        logger.debug("all result == {}", allIsStartsWithP);
+        logger.debug("any result == {}", anyIsStartsWithP);
 
         String secondElement = Iterators.get(list.iterator(), 1);
-        logger.debug(secondElement);
+        logger.debug("secondElement: {}", secondElement);
     }
 
     /**
@@ -47,15 +41,9 @@ public class IteratorsTest  {
     public void test2() {
         List<String> list = Lists.newArrayList("Apple", "Pear", "Peach", "Banana");
         Iterator<String> startPElements = Iterators
-                .filter(list.iterator(), new Predicate<String>() {
-
-                    public boolean apply(String input) {
-                        return ((String) input).startsWith("P");
-                    }
-                });
-
+                .filter(list.iterator(), input -> input != null && input.startsWith("P"));
         String secondElement = Iterators.get(startPElements, 1);
-        logger.debug(secondElement);
+        logger.debug("secondElement: {}", secondElement);
     }
 
     /**
@@ -64,13 +52,10 @@ public class IteratorsTest  {
     @Test
     public void test3() {
         List<String> list = Lists.newArrayList("Apple", "Pear", "Peach", "Banana");
-        String length5Element = Iterators.find(list.iterator(), new Predicate<String>() {
-            public boolean apply(String input) {
-                return input.length() == 5;
-            }
-        });
+        String length5Element = Iterators
+                .find(list.iterator(), input -> input != null && input.length() == 5);
 
-        logger.debug(length5Element);
+        logger.debug("length5Element: {}", length5Element);
     }
 
     /**
@@ -79,14 +64,14 @@ public class IteratorsTest  {
     @Test
     public void test4() {
         List<String> list = Lists.newArrayList("Apple", "Pear", "Peach", "Banana");
-        Iterator<Integer> countIterator = Iterators
-                .transform(list.iterator(), new Function<String, Integer>() {
-                    public Integer apply(String input) {
-                        return input.length();
-                    }
-                });
+        Iterator<Integer> countIterator = Iterators.transform(list.iterator(), input -> {
+            if (input != null) {
+                return input.length();
+            }
+            return 0;
+        });
 
         int secondElement = Iterators.get(countIterator, 1);
-        logger.debug(secondElement);
+        logger.debug("secondElement: {}", secondElement);
     }
 }

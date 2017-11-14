@@ -28,15 +28,11 @@ public class MultisetTest {
         String sentences = "this is a story, there is a good girl in the story.";
         Iterable<String> words = Splitter.onPattern("[^a-z]{1,}").omitEmptyStrings().trimResults()
                 .split(sentences);
-        for (String word : words) {
-            multiset.add(word);
-        }
+        words.forEach(multiset::add);
 
         multiset.setCount("there", 4);
 
-        for (Object element : multiset.elementSet()) {
-            logger.debug((String) element + ":" + multiset.count(element));
-        }
+        multiset.elementSet().forEach(item -> logger.debug(item + ":" + multiset.count(item)));
     }
 
     @Test
@@ -50,6 +46,6 @@ public class MultisetTest {
         multiset2.add("a");
         multiset2.add("a");
         boolean flag = Objects.equal(multiset1, multiset2);
-        logger.debug(flag);
+        logger.debug("equal flag: {}", flag);
     }
 }
