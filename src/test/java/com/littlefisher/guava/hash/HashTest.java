@@ -2,7 +2,6 @@ package com.littlefisher.guava.hash;
 
 import java.util.List;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -14,6 +13,7 @@ import com.google.common.hash.Funnel;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
+import com.littlefisher.guava.model.Person;
 
 public class HashTest {
 
@@ -27,7 +27,10 @@ public class HashTest {
         Long id = 12L;
         String name = "baoq";
         HashFunction function = Hashing.md5();
-        HashCode hc = function.newHasher().putLong(id).putString(name, Charsets.UTF_8).hash();
+        HashCode hc = function.newHasher()
+                .putLong(id)
+                .putString(name, Charsets.UTF_8)
+                .hash();
         logger.debug(hc.hashCode());
     }
 
@@ -39,16 +42,18 @@ public class HashTest {
         Funnel<Person> personFunnel = getPerson();
         Person person = new Person(1, "bao", "qiang", 21);
         HashFunction function = Hashing.md5();
-        HashCode hc = function.newHasher().putObject(person, personFunnel).hash();
+        HashCode hc = function.newHasher()
+                .putObject(person, personFunnel)
+                .hash();
         logger.debug(hc.hashCode());
     }
 
     private Funnel<Person> getPerson() {
         return (Funnel<Person>) (from, into) -> {
-            into.putInt(from.id);
-            into.putString(from.firstName, Charsets.UTF_8);
-            into.putString(from.lastName, Charsets.UTF_8);
-            into.putInt(from.birthYear);
+            into.putInt(from.getId());
+            into.putString(from.getFirstName(), Charsets.UTF_8);
+            into.putString(from.getLastName(), Charsets.UTF_8);
+            into.putInt(from.getBirthYear());
         };
     }
 
@@ -74,20 +79,3 @@ public class HashTest {
 
 }
 
-class Person {
-
-    Person(int id, String firstName, String lastName, int birthYear) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthYear = birthYear;
-    }
-
-    int id;
-
-    String firstName;
-
-    String lastName;
-
-    int birthYear;
-}

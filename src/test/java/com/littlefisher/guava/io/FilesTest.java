@@ -14,37 +14,38 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.common.io.LineProcessor;
 
-/**
- * TODO: 可记录
- */
 public class FilesTest {
 
     private static Logger logger = LogManager.getLogger(FilesTest.class);
 
+    /** 文件目录 */
+    private static final String FILE_PATH = "/Users/littlefisher/Documents/";
+
     /**
-     * 一. Guava的文件写入
+     *
+     * Files.write
+     *
+     * Guava的文件写入
      */
     @Test
-    public void test1() {
-        String fileName = "e://a.txt";
+    public void test1() throws IOException {
+        String fileName = FILE_PATH + "test.txt";
         String contents = "hello world";
         checkNotNull(fileName, "Provided file name for writing must NOT be null.");
         checkNotNull(contents, "Unable to write null contents.");
         final File newFile = new File(fileName);
-        try {
-            Files.write(contents.getBytes(), newFile);
-        } catch (IOException fileIoEx) {
-            logger.error(
-                    "ERROR trying to write to file '" + fileName + "' - " + fileIoEx.toString());
-        }
+        Files.write(contents.getBytes(), newFile);
     }
 
     /**
+     *
+     * Files.readLines
+     *
      * 获取文件内容
      */
     @Test
     public void test2() throws IOException {
-        String testFilePath = "E:\\a.txt";
+        String testFilePath = FILE_PATH + "test.txt";
         File testFile = new File(testFilePath);
         List<String> lines = Files.readLines(testFile, Charsets.UTF_8);
         for (String line : lines) {
@@ -53,16 +54,20 @@ public class FilesTest {
     }
 
     /**
+     *
+     * Files.asCharSource
+     *
      * 注意这里的readLines方法返回的是List<String>的接口，这对于大文件处理是会有问题的。
      * 大文件处理可以使用readLines方法的另一个重载。
      * 下面的例子演示从一个大文件中逐行读取文本，并做行号计数。
      */
     @Test
     public void test3() throws IOException {
-        String testFilePath = "e:\\svn.txt";
+        String testFilePath = FILE_PATH + "test.txt";
         File testFile = new File(testFilePath);
         CounterLine counter = new CounterLine();
-        Files.asCharSource(testFile, Charsets.UTF_8).readLines(counter);
+        Files.asCharSource(testFile, Charsets.UTF_8)
+                .readLines(counter);
         logger.debug(counter.getResult());
     }
 
@@ -70,67 +75,104 @@ public class FilesTest {
 
         private int rowNum = 0;
 
-        public boolean processLine(String line) throws IOException {
+        @Override
+        public boolean processLine(String line) {
             logger.debug(line);
             rowNum++;
             return true;
         }
 
+        @Override
         public Integer getResult() {
             return rowNum;
         }
     }
 
     /**
+     *
+     * Files.asCharSource
+     *
      * 获取所有文本内容
      */
     @Test
     public void test4() throws IOException {
-        File file = new File("e://svn.txt");
-        String content = Files.asCharSource(file, Charsets.UTF_8).read();
+        File file = new File(FILE_PATH + "test.txt");
+        String content = Files.asCharSource(file, Charsets.UTF_8)
+                .read();
         logger.debug(content);
 
         //		logger.debug(Files.readFirstLine(file, Charsets.UTF_8));
     }
 
     /**
+     *
+     * Files.copy
+     *
      * 文件复制
      */
     @Test
-    public void test5() {
-        String sourceFileName = "e://svn.txt";
-        String targetFileName = "e://svn_copy.txt";
+    public void test5() throws IOException {
+        String sourceFileName = FILE_PATH + "test.txt";
+        String targetFileName = FILE_PATH + "test_copy.txt";
         checkNotNull(sourceFileName, "Copy source file name must NOT be null.");
         checkNotNull(targetFileName, "Copy target file name must NOT be null.");
         final File sourceFile = new File(sourceFileName);
         final File targetFile = new File(targetFileName);
-        try {
-            Files.copy(sourceFile, targetFile);
-        } catch (IOException fileIoEx) {
-            logger.error(
-                    "ERROR trying to copy file '" + sourceFileName + "' to file '" + targetFileName
-                    + "' - " + fileIoEx.toString());
-        }
+        Files.copy(sourceFile, targetFile);
     }
 
     /**
+     *
+     * Files.equal
+     *
      * 比较文件内容是否相同
      */
     @Test
-    public void test6() {
-        String fileName1 = "e://svn.txt";
-        String fileName2 = "e://svn_copy.txt";
+    public void test6() throws IOException {
+        String fileName1 = FILE_PATH + "test.txt";
+        String fileName2 = FILE_PATH + "test_copy.txt";
         checkNotNull(fileName1, "First file name for comparison must NOT be null.");
         checkNotNull(fileName2, "Second file name for comparison must NOT be null.");
         final File file1 = new File(fileName1);
         final File file2 = new File(fileName2);
-        try {
-            logger.debug("File '" + fileName1 + "' " + (Files.equal(file1, file2) ? "IS" : "is NOT")
-                         + " the same as file '" + fileName2 + "'.");
-        } catch (IOException fileIoEx) {
-            logger.error("ERROR trying to compare two files '" + fileName1 + "' and '" + fileName2
-                         + "' - " + fileIoEx.toString());
-        }
+        logger.debug("File '" + fileName1 + "' " + (Files.equal(file1, file2) ? "IS" : "is NOT") +
+                " the same as file '" + fileName2 + "'.");
+    }
+
+    /**
+     * Files.createParentDirs(File)
+     *
+     * 创建父级目录，会递归创建
+     */
+    @Test
+    public void test7() throws IOException {
+        String fileName = FILE_PATH + "/aaa/bbb/ccc/test.txt";
+        Files.createParentDirs(new File(fileName));
+    }
+
+    /**
+     *
+     * Files.getFileExtension
+     *
+     * 获取文件扩展名
+     */
+    @Test
+    public void test8() {
+        String fileName = FILE_PATH + "test.txt";
+
+        String extensionName = Files.getFileExtension(fileName);
+        logger.debug("extensionName: {}", extensionName);
+    }
+
+    /**
+     * 获取不带扩展名的文件名
+     */
+    @Test
+    public void test9() {
+        String fileFullPathName = FILE_PATH + "test.txt";
+        String fileNameWithoutExtension = Files.getNameWithoutExtension(fileFullPathName);
+
+        logger.debug("fileNameWithoutExtension: {}", fileNameWithoutExtension);
     }
 
     /*

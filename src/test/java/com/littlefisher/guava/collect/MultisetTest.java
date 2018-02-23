@@ -1,7 +1,5 @@
 package com.littlefisher.guava.collect;
 
-import junit.framework.TestCase;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -26,13 +24,16 @@ public class MultisetTest {
     public void test() {
         Multiset<String> multiset = HashMultiset.create();
         String sentences = "this is a story, there is a good girl in the story.";
-        Iterable<String> words = Splitter.onPattern("[^a-z]{1,}").omitEmptyStrings().trimResults()
+        Iterable<String> words = Splitter.onPattern("[^a-z]{1,}")
+                .omitEmptyStrings()
+                .trimResults()
                 .split(sentences);
         words.forEach(multiset::add);
 
         multiset.setCount("there", 4);
 
-        multiset.elementSet().forEach(item -> logger.debug(item + ":" + multiset.count(item)));
+        multiset.elementSet()
+                .forEach(item -> logger.debug(item + ":" + multiset.count(item)));
     }
 
     @Test

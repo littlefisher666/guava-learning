@@ -41,8 +41,8 @@ public class LoadingCacheTest {
                 .recordStats()
                 // 设置缓存的移除通知
                 .removalListener(notification -> {
-                    logger.debug(notification.getKey() + " was removed, cause is " + notification
-                            .getCause());
+                    logger.debug(notification.getKey() + " was removed, cause is " +
+                            notification.getCause());
                 })
                 // build方法中可以指定CacheLoader，在缓存不存在时通过CacheLoader的实现自动加载缓存
                 .build(new CacheLoader<Integer, Student>() {
@@ -61,7 +61,6 @@ public class LoadingCacheTest {
             Student student = studentCache.get(1);
             logger.debug(student);
             // 休眠1秒
-            // TODO: 可记录
             TimeUnit.SECONDS.sleep(1);
         }
 
@@ -71,6 +70,7 @@ public class LoadingCacheTest {
          * 看看到在20此循环中命中次数是17次，未命中3次，这是因为我们设定缓存的过期时间是写入后的8秒，
          * 所以20秒内会失效两次，另外第一次获取时缓存中也是没有值的，所以才会未命中3次，其他则命中。
          */
-        logger.debug("cache stats: {}", studentCache.stats().toString());
+        logger.debug("cache stats: {}", studentCache.stats()
+                .toString());
     }
 }

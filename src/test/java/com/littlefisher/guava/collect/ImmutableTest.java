@@ -20,8 +20,9 @@ public class ImmutableTest {
      */
     @Test
     public void test1() {
-        Set<String> immutableNamedColors = ImmutableSet.<String>builder()
-                .add("red", "green", "black", "white", "grey").build();
+        Set<String> immutableNamedColors = ImmutableSet.<String>builder().add("red", "green",
+                "black", "white", "grey")
+                .build();
         // 一旦不可变集合进行了创建就不可以在操作了
         // immutableNamedColors.add("yellow");
         for (String color : immutableNamedColors) {
@@ -34,8 +35,8 @@ public class ImmutableTest {
      */
     @Test
     public void test2() {
-        Set<String> immutableNamedColors = ImmutableSet
-                .of("red", "green", "black", "white", "grey");
+        Set<String> immutableNamedColors = ImmutableSet.of("red", "green", "black", "white",
+                "grey");
         for (String color : immutableNamedColors) {
             logger.debug(color);
         }
@@ -46,8 +47,8 @@ public class ImmutableTest {
      */
     @Test
     public void test3() {
-        Set<String> immutableNamedColors = ImmutableSet
-                .copyOf(new String[] { "red", "green", "black", "white", "grey" });
+        Set<String> immutableNamedColors = ImmutableSet.copyOf(
+                new String[] { "red", "green", "black", "white", "grey" });
         for (String color : immutableNamedColors) {
             logger.debug(color);
         }

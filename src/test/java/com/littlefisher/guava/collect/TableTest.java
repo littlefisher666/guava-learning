@@ -15,6 +15,9 @@ public class TableTest {
 
     private static Logger logger = LogManager.getLogger(TableTest.class);
 
+    /**
+     * 二维表结构，Table中的泛型，分别对应横坐标、纵坐标、值
+     */
     @Test
     public void test() {
         Table<Integer, Integer, String> table = HashBasedTable.create();

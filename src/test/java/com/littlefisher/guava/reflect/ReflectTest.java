@@ -28,12 +28,13 @@ public class ReflectTest {
         logger.debug("intList type is " + intList.getClass());
         logger.debug("stringList type is " + stringList.getClass());
         //判断list的类型是否是同一个类型
-        logger.debug(stringList.getClass().isAssignableFrom(intList.getClass()));
+        logger.debug(stringList.getClass()
+                .isAssignableFrom(intList.getClass()));
 
         TypeToken<ArrayList<String>> typeToken = new TypeToken<ArrayList<String>>() {
         };
-        TypeToken<?> genericTypeToken = typeToken
-                .resolveType(ArrayList.class.getTypeParameters()[0]);
+        TypeToken<?> genericTypeToken = typeToken.resolveType(
+                ArrayList.class.getTypeParameters()[0]);
         logger.debug(genericTypeToken.getType());
     }
 
@@ -50,9 +51,8 @@ public class ReflectTest {
         foo.doSomething();
 
         //jdk Dynamic proxy implement
-        IFoo jdkFoo = (IFoo) Proxy
-                .newProxyInstance(IFoo.class.getClassLoader(), new Class<?>[] { IFoo.class },
-                        invocationHandler);
+        IFoo jdkFoo = (IFoo) Proxy.newProxyInstance(IFoo.class.getClassLoader(),
+                new Class<?>[] { IFoo.class }, invocationHandler);
         jdkFoo.doSomething();
     }
 

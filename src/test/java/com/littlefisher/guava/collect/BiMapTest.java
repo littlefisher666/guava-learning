@@ -1,7 +1,5 @@
 package com.littlefisher.guava.collect;
 
-import junit.framework.TestCase;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -14,9 +12,12 @@ import com.google.common.collect.HashBiMap;
  * 但是要求不管是key还是value，在map中都是唯一的
  */
 public class BiMapTest {
-    
+
     private static Logger logger = LogManager.getLogger(BiMapTest.class);
 
+    /**
+     * 在公司中有使用到，例如key，value分别对应userId和resourceId
+     */
     @Test
     public void test1() {
         BiMap<String, String> weekNameMap = HashBiMap.create();
@@ -29,6 +30,7 @@ public class BiMapTest {
         weekNameMap.put("星期日", "Sunday");
 
         logger.debug("星期日的英文名是" + weekNameMap.get("星期日"));
-        logger.debug("Sunday的中文是" + weekNameMap.inverse().get("Sunday"));
+        logger.debug("Sunday的中文是" + weekNameMap.inverse()
+                .get("Sunday"));
     }
 }

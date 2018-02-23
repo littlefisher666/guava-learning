@@ -9,6 +9,7 @@ import org.junit.Test;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import com.littlefisher.guava.model.Person;
 
 public class OrderingTest {
 
@@ -20,20 +21,29 @@ public class OrderingTest {
     @Test
     public void test1() {
         List<Integer> numbers = Lists.newArrayList(30, 20, 60, 80, 10);
-
-        logger.debug(Ordering.natural().sortedCopy(numbers)); //10,20,30,60,80
-
-        logger.debug(Ordering.natural().reverse().sortedCopy(numbers)); //80,60,30,20,10
-
-        logger.debug(Ordering.natural().min(numbers)); //10
-
-        logger.debug(Ordering.natural().max(numbers)); //80
+        //10,20,30,60,80
+        logger.debug(Ordering.natural()
+                .sortedCopy(numbers));
+        //80,60,30,20,10
+        logger.debug(Ordering.natural()
+                .reverse()
+                .sortedCopy(numbers));
+        //10
+        logger.debug(Ordering.natural()
+                .min(numbers));
+        //80
+        logger.debug(Ordering.natural()
+                .max(numbers));
 
         Lists.newArrayList(30, 20, 60, 80, null, 10);
-
-        logger.debug(Ordering.natural().nullsLast().sortedCopy(numbers)); //10, 20,30,60,80,null
-
-        logger.debug((Ordering.natural().nullsFirst().sortedCopy(numbers))); //null,10,20,30,60,80
+        //10, 20,30,60,80,null
+        logger.debug(Ordering.natural()
+                .nullsLast()
+                .sortedCopy(numbers));
+        //null,10,20,30,60,80
+        logger.debug((Ordering.natural()
+                .nullsFirst()
+                .sortedCopy(numbers)));
     }
 
     @Test
@@ -49,7 +59,8 @@ public class OrderingTest {
             }
         };
 
-        byAge.immutableSortedCopy(personList).forEach(logger::debug);
+        byAge.immutableSortedCopy(personList)
+                .forEach(logger::debug);
     }
 
     @Test
@@ -111,25 +122,25 @@ public class OrderingTest {
             listReduce.add(i);
         }
 
-        List<Integer> listtest = Lists.newArrayList();
-        listtest.add(1);
-        listtest.add(1);
-        listtest.add(1);
-        listtest.add(2);
+        List<Integer> numberList = Lists.newArrayList();
+        numberList.add(1);
+        numberList.add(1);
+        numberList.add(1);
+        numberList.add(2);
 
         Ordering<Integer> naturalIntReduceOrdering = Ordering.natural();
 
-        logger.debug("listtest: {}", listtest);
-        logger.debug(naturalIntReduceOrdering.isOrdered(listtest));
-        logger.debug(naturalIntReduceOrdering.isStrictlyOrdered(listtest));
+        logger.debug("numberList: {}", numberList);
+        logger.debug(naturalIntReduceOrdering.isOrdered(numberList));
+        logger.debug(naturalIntReduceOrdering.isStrictlyOrdered(numberList));
 
         logger.debug("naturalIntReduceOrdering:" + naturalIntReduceOrdering.sortedCopy(listReduce));
         logger.debug("listReduce:" + listReduce);
 
-        logger.debug(naturalIntReduceOrdering
-                .isOrdered(naturalIntReduceOrdering.sortedCopy(listReduce)));
-        logger.debug(naturalIntReduceOrdering
-                .isStrictlyOrdered(naturalIntReduceOrdering.sortedCopy(listReduce)));
+        logger.debug(naturalIntReduceOrdering.isOrdered(
+                naturalIntReduceOrdering.sortedCopy(listReduce)));
+        logger.debug(naturalIntReduceOrdering.isStrictlyOrdered(
+                naturalIntReduceOrdering.sortedCopy(listReduce)));
 
         Ordering<String> natural = Ordering.natural();
 
@@ -137,7 +148,8 @@ public class OrderingTest {
         logger.debug(natural.isOrdered(abc));
         logger.debug(natural.isStrictlyOrdered(abc));
 
-        logger.debug("isOrdered reverse :" + natural.reverse().isOrdered(abc));
+        logger.debug("isOrdered reverse :" + natural.reverse()
+                .isOrdered(abc));
 
         List<String> cba = ImmutableList.of("c", "b", "a");
         logger.debug(natural.isOrdered(cba));
@@ -151,13 +163,17 @@ public class OrderingTest {
         logger.debug("naturalOrdering:" + naturalOrdering.sortedCopy(list));
         logger.debug("leastOf list:" + naturalOrdering.leastOf(list, 3));
         logger.debug("greatestOf:" + naturalOrdering.greatestOf(list, 3));
-        logger.debug("reverse list :" + naturalOrdering.reverse().sortedCopy(list));
+        logger.debug("reverse list :" + naturalOrdering.reverse()
+                .sortedCopy(list));
         logger.debug("isOrdered list :" + naturalOrdering.isOrdered(list));
-        logger.debug("isOrdered list :" + naturalOrdering.reverse().isOrdered(list));
+        logger.debug("isOrdered list :" + naturalOrdering.reverse()
+                .isOrdered(list));
         list.add(null);
         logger.debug(" add null list:" + list);
-        logger.debug("nullsFirst list :" + naturalOrdering.nullsFirst().sortedCopy(list));
-        logger.debug("nullsLast list :" + naturalOrdering.nullsLast().sortedCopy(list));
+        logger.debug("nullsFirst list :" + naturalOrdering.nullsFirst()
+                .sortedCopy(list));
+        logger.debug("nullsLast list :" + naturalOrdering.nullsLast()
+                .sortedCopy(list));
     }
 }
 
