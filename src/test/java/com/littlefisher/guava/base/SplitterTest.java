@@ -25,7 +25,8 @@ public class SplitterTest {
                 // 排除空字符
                 .omitEmptyStrings()
                 // 对截取后字符串进行trim
-                .trimResults().split(str);
+                .trimResults()
+                .split(str);
 
         for (String tempStr : it) {
             logger.debug("tempStr: {}", tempStr);
@@ -38,7 +39,8 @@ public class SplitterTest {
     @Test
     public void test2() {
         String toSplitString = "a=b;c=d,e=f";
-        Map<String, String> kvs = Splitter.onPattern("[,;]{1,}").withKeyValueSeparator('=')
+        Map<String, String> kvs = Splitter.onPattern("[,;]{1,}")
+                .withKeyValueSeparator('=')
                 .split(toSplitString);
         for (Map.Entry<String, String> entry : kvs.entrySet()) {
             logger.debug(String.format("%s=%s", entry.getKey(), entry.getValue()));
@@ -52,10 +54,16 @@ public class SplitterTest {
     public void test3() {
         //limit(int) 限制拆分出来的数量
         String str = "hello is world";
-        List<String> list = Splitter.on(" ").limit(2).splitToList(str);
+        List<String> list = Splitter.on(" ")
+                .limit(2)
+                .splitToList(str);
         logger.debug("list: {}", list);
-        list = Splitter.on(" ").limit(3).splitToList(str);
-        String[] strArr = Iterables.toArray(Splitter.on(" ").limit(3).split(str), String.class);
+        list = Splitter.on(" ")
+                .limit(3)
+                .splitToList(str);
+        String[] strArr = Iterables.toArray(Splitter.on(" ")
+                .limit(3)
+                .split(str), String.class);
         logger.debug("list: {}", list);
     }
 

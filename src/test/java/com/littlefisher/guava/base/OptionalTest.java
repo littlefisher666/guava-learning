@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
 import com.google.common.base.Optional;
-import com.littlefisher.guava.base.ObjectsTest.Student;
+import com.littlefisher.guava.model.Student;
 
 public class OptionalTest {
     

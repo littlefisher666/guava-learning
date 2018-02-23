@@ -1,11 +1,15 @@
 package com.littlefisher.guava.model;
 
+import com.google.common.base.MoreObjects;
+
 /**
  *
  * @author jinyn22648
  * @version $$Id: Student.java, v 0.1 2018/2/23 上午9:48 jinyn22648 Exp $$
  */
 public class Student implements Comparable<Student> {
+
+    private Integer id;
 
     private String name;
 
@@ -26,6 +30,38 @@ public class Student implements Comparable<Student> {
         this.name = name;
         this.age = age;
         this.sex = sex;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public int getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(int zipCode) {
+        this.zipCode = zipCode;
     }
 
     public String getName() {
@@ -54,7 +90,8 @@ public class Student implements Comparable<Student> {
 
     @Override
     public String toString() {
-        return "Student{" + "name='" + name + '\'' + ", age=" + age + ", sex='" + sex + '\'' + '}';
+        return MoreObjects.toStringHelper(this.getClass()).add("id", id).add("name", name)
+                .add("age", age).omitNullValues().toString(); //忽略空值
     }
 
     //jdk

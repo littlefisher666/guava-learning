@@ -3,8 +3,6 @@ package com.littlefisher.guava.cache;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import junit.framework.TestCase;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -12,9 +10,7 @@ import org.junit.Test;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.cache.RemovalListener;
-import com.google.common.cache.RemovalNotification;
-import com.littlefisher.guava.base.ObjectsTest.Student;
+import com.littlefisher.guava.model.Student;
 
 public class LoadingCacheTest {
 

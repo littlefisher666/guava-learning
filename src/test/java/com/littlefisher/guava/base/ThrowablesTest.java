@@ -9,8 +9,6 @@ import org.junit.Test;
 
 import com.google.common.base.Throwables;
 
-
-
 public class ThrowablesTest {
 
     private static Logger logger = LogManager.getLogger(ThrowablesTest.class);
@@ -28,7 +26,7 @@ public class ThrowablesTest {
             Throwables.throwIfInstanceOf(throwable, SQLException.class);
             // 如果异常是Error类型，那么抛出这个类型，否则将抛出RuntimeException，
             // 我们知道RuntimeException是不需要在throws中声明的。
-//            Throwables.propagate(throwable);
+            //            Throwables.propagate(throwable);
             Throwables.throwIfUnchecked(throwable);
 
             getThrowableMsg(throwable);

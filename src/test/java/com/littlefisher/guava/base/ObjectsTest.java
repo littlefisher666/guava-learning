@@ -4,8 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import com.littlefisher.guava.model.Student;
 
 public class ObjectsTest {
 
@@ -38,42 +38,4 @@ public class ObjectsTest {
         logger.debug(bq.toString());
     }
 
-    public static class Student {
-
-        private int id;
-
-        private String name;
-
-        private int age;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getAge() {
-            return age;
-        }
-
-        public void setAge(int age) {
-            this.age = age;
-        }
-
-        @Override
-        public String toString() {
-            return MoreObjects.toStringHelper(this.getClass()).add("id", id).add("name", name)
-                    .add("age", age).omitNullValues().toString(); //忽略空值
-        }
-    }
 }
