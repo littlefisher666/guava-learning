@@ -58,18 +58,22 @@ public class IteratorsTest {
      * Iterators.find
      *
      * find方法返回符合条件的第一个元素
+     * 该方法有重载方法，入参为3个，第三个为默认值。如果使用不带默认值的方法，未查到结果时会报异常
      */
     @Test
     public void test3() {
         List<String> list = Lists.newArrayList("Apple", "Pear", "Peach", "Banana");
         String length5Element = Iterators.find(list.iterator(),
-                input -> input != null && input.length() == 5);
+                input -> input != null && input.length() == 5, null);
 
         logger.debug("length5Element: {}", length5Element);
     }
 
     /**
      * Iterators.transform
+     *
+     * 最常用的方式，是把{@link List<Student>}这样的集合，仅提取{@link Student}的name，这样的操作
+     * 实际应用例如{@code List<CreditCreditApply>}提取creditApplyId集合为{@link List<String>}
      *
      * transform方法，对迭代器元素做转换
      */
@@ -88,6 +92,22 @@ public class IteratorsTest {
 
         String secondStudentName = Iterators.get(studentNameIterator, 1);
         logger.debug("secondStudentName: {}", secondStudentName);
+    }
+
+    /**
+     *
+     * Iterators.removeIf
+     *
+     * 迭代器中删除元素。原生写法是不能在for循环中删除元素的
+     */
+    @Test
+    public void test5() {
+        List<Student> studentList = Lists.newArrayList(new Student("Apple", 11, "male"),
+                new Student("Pear", 12, "female"), new Student("Peach", 13, "male"),
+                new Student("Banana", 14, "female"));
+
+        Iterators.removeIf(studentList.iterator(),
+                student -> student != null && "female".equals(student.getSex()));
     }
 
 }

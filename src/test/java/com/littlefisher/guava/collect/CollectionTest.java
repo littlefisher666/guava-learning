@@ -21,9 +21,6 @@ import com.google.common.collect.Sets;
 import com.littlefisher.guava.model.Person;
 import com.littlefisher.guava.model.Student;
 
-/**
- * TODO: 可记录
- */
 public class CollectionTest {
 
     private static Logger logger = LogManager.getLogger(CollectionTest.class);
