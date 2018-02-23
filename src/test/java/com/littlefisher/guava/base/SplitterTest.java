@@ -10,9 +10,6 @@ import org.junit.Test;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 
-/**
- * TODO: 可记录
- */
 public class SplitterTest {
 
     private static Logger logger = LogManager.getLogger(SplitterTest.class);

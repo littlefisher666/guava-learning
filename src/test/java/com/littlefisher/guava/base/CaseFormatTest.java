@@ -19,8 +19,6 @@ public class CaseFormatTest {
      * UPPER_CAMEL：例如AaaBbbCcc
      * UPPER_UNDERSCORE：例如AAA_BBB_CCC
      *
-     * TODO: 可记录
-     *
      */
     @Test
     public void test1() {
